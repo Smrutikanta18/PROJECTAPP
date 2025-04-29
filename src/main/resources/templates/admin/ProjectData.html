@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Data Management</title>
+    <meta
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+            name="viewport"
+    />
+    <link
+            rel="icon"
+            th:href="@{/img1/kaiadmin/favicon.ico}"
+            type="image/x-icon"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    .pagination {
+        font-size: 1rem;
+        gap: 4px;
+    }
+
+    .pagination .page-item {
+        transition: transform 0.2s ease;
+    }
+
+    .pagination .page-item:hover:not(.active):not(.disabled) {
+        transform: scale(1.05);
+    }
+
+    .pagination .page-link {
+        color: #28a745;
+        border: 1px solid #28a745;
+        border-radius: 8px;
+        padding: 8px 12px;
+        background-color: white;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #28a745;
+        color: white;
+        border-color: #28a745;
+        font-weight: bold;
+    }
+
+    .pagination .page-item.disabled .page-link {
+        color: #ccc;
+        border-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    .pagination .page-item .page-link:focus {
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    }
+</style>
+
+
+    <style>
+   body {
+            background-color: #f4f7f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .card {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        .project-img {
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .btn-edit {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .project-details {
+            font-size: 0.9rem;
+            color: #555;
+        }
+    </style>
+
+    <!-- Fonts and icons -->
+    <script th:src="@{/js1/plugin/webfont/webfont.min.js}"></script>
+    <script>
+      WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: ["assets/css/fonts.min.css"],
+        },
+        active: function () {
+          sessionStorage.fonts = true;
+        },
+      });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" th:href="@{/css1/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css1/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/css1/kaiadmin.min.css}" />
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link rel="stylesheet" th:href="@{/css1/demo.css}" />
+</head>
+<body>
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar" data-background-color="dark">
+        <div class="sidebar-logo">
+            <!-- Logo Header -->
+            <div class="logo-header" data-background-color="dark">
+                <a href="adminIndex" class="logo">
+                    <div
+                            class="navbar-brand">
+                        <h1 style="color:white">Admin Page</h1>
+                    </div>
+                </a>
+                <div class="nav-toggle">
+                    <button class="btn btn-toggle toggle-sidebar">
+                        <i class="gg-menu-right"></i>
+                    </button>
+                    <button class="btn btn-toggle sidenav-toggler">
+                        <i class="gg-menu-left"></i>
+                    </button>
+                </div>
+                <button class="topbar-toggler more">
+                    <i class="gg-more-vertical-alt"></i>
+                </button>
+            </div>
+            <!-- End Logo Header -->
+        </div>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+            <div class="sidebar-content">
+                <ul class="nav nav-secondary">
+                    <li class="nav-item active">
+                        <a
+                                data-bs-toggle="collapse"
+                                href="adminIndex"
+                                class="collapsed"
+                                aria-expanded="false"
+                        >
+                            <i class="fas fa-home"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                </span>
+                        <h4 class="text-section">Components</h4>
+                    </li>
+                    <li class="nav-item">
+                        <a href="adminProfile">
+                            <p>Profile</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="data">
+                            <p>Data</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="banners">
+                            <p>BannerImage</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="projects">
+                            <p>Projects</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="adminServices">
+                            <p>Services</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="galleryImage">
+                            <p>GalleryImage</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="adminLogout">
+                            <p>logout</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- End Sidebar -->
+
+    <div class="main-panel">
+        <div class="main-header">
+            <div class="main-header-logo">
+                <!-- Logo Header -->
+                <div class="logo-header" data-background-color="dark">
+                    <a href="adminIndex" class="logo">
+                        <div class="navbar-brand">
+                            <h1 style="color:white">Admin Page</h1>
+                        </div>
+                    </a>
+                    <div class="nav-toggle">
+                        <button class="btn btn-toggle toggle-sidebar">
+                            <i class="gg-menu-right"></i>
+                        </button>
+                        <button class="btn btn-toggle sidenav-toggler">
+                            <i class="gg-menu-left"></i>
+                        </button>
+                    </div>
+                    <button class="topbar-toggler more">
+                        <i class="gg-more-vertical-alt"></i>
+                    </button>
+                </div>
+                <!-- End Logo Header -->
+            </div>
+            <!-- Navbar Header -->
+            <nav
+                    class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+            >
+                <div class="container-fluid">
+                    <nav
+                            class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
+                    >
+                        <div >
+                            <h1><b>Projects</b></h1>
+                        </div>
+                    </nav>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+        </div>
+        <div class="container">
+            <div class="page-inner">
+                <div
+                        class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
+                >
+                    <div>
+                        <h3 class="fw-bold mb-3">All Projects</h3>
+                    </div>
+                </div>
+
+                <div class="page-header">
+                    <h2>Project List</h2>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">+ Add Project</button>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    <div class="col" th:each="project : ${projectPage.content}">
+                        <div class="card h-100">
+                            <img th:src="@{'images/'+${project.image}}" class="card-img-top project-img" alt="Project Image">
+                            <div class="card-body">
+                                <h5 class="card-title fw-semibold" th:text="${project.name}">Project Name</h5>
+                                <p class="project-details">
+                                    <strong>Work:</strong> <span th:text="${project.work}"></span><br>
+                                    <strong>Location:</strong> <span th:text="${project.location}"></span><br>
+                                    <strong>Status:</strong> <span th:text="${project.status}"></span>
+                                </p>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button class="btn btn-sm btn-edit"
+                                            th:attr="data-bs-target='#editModal__' + ${project.id}"
+                                            data-bs-toggle="modal">
+                                        Edit
+                                    </button>
+
+
+                                    <button class="btn btn-sm btn-delete" data-bs-toggle="modal"
+                                            th:attr="data-bs-target='#deleteModal__' + ${project.id}">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Edit Modal -->
+                        <div class="modal fade"
+                             th:attr="id='editModal__' + ${project.id}"
+                             tabindex="-1">
+
+                        <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="/updateProject" method="post" enctype="multipart/form-data">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Edit Project</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="id" th:value="${project.id}">
+                                            <div class="mb-3">
+                                                <label class="form-label">Image URL</label>
+                                                <input type="file" name="image" class="form-control" accept=".jpg,.jpeg,.png" th:value="${project.image}">
+                                                <small class="form-text text-muted">
+                                                    Only JPG or PNG files allowed. Image size must be 400 × 500 pixels.
+                                                </small>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Name</label>
+                                                <input type="text" name="name" class="form-control" th:value="${project.name}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Work</label>
+                                                <input type="text" name="work" class="form-control" th:value="${project.work}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Location</label>
+                                                <input type="text" name="location" class="form-control" th:value="${project.location}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Status</label>
+                                                <input type="text" name="status" class="form-control" th:value="${project.status}">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button class="btn btn-primary" type="submit">Save Changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <nav aria-label="Page navigation" style="margin-top: 15px;">
+                    <ul class="pagination justify-content-center">
+                        <!-- Previous Button -->
+                        <li th:classappend="${currentPage == 0} ? 'disabled'" class="page-item">
+                            <a th:href="@{/projects(page=${currentPage - 1})}" class="page-link">Previous</a>
+                        </li>
+
+                        <!-- First 5 Pages -->
+                        <li th:each="i : ${#numbers.sequence(0, (projectPage.totalPages > 5 ? 4 : projectPage.totalPages - 1))}"
+                            th:classappend="${i == currentPage} ? 'active'" class="page-item">
+                            <a th:href="@{/projects(page=${i})}" th:text="${i + 1}" class="page-link"></a>
+                        </li>
+
+                        <!-- Ellipses if more than 5 pages -->
+                        <li th:if="${projectPage.totalPages > 5}" class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+
+                        <!-- Next Button -->
+                        <li th:classappend="${currentPage == projectPage.totalPages - 1} ? 'disabled'" class="page-item">
+                            <a th:href="@{/projects(page=${currentPage + 1})}" class="page-link">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+
+
+                <!-- Add Project Modal -->
+            <div class="modal fade" id="addModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="/addProject" method="post"  enctype="multipart/form-data">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add Project</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Image</label>
+                                    <input type="file" name="image" class="form-control" accept=".jpg,.jpeg,.png" required>
+                                    <small class="form-text text-muted">
+                                        Only JPG or PNG files allowed. Image size must be 400 × 500 pixels.
+                                    </small>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" name="name" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Work</label>
+                                    <input type="text" name="work" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Location</label>
+                                    <input type="text" name="location" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Status</label>
+                                    <input type="text" name="status" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button class="btn btn-success" type="submit">Add Project</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+        </div>
+
+</div>
+
+<!--   Core JS Files   -->
+<script src="@{/js1/core/jquery-3.7.1.min.js}"></script>
+<script src="@{/js1/core/popper.min.js}"></script>
+<script src="@{/js1/core/bootstrap.min.js}"></script>
+
+<!-- jQuery Scrollbar -->
+<script src="@{/js1/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+
+<!-- Chart JS -->
+<script src="@{/js1/plugin/chart.js/chart.min.js}"></script>
+
+<!-- jQuery Sparkline -->
+<script src="@{/js1/plugin/jquery.sparkline/jquery.sparkline.min.js}"></script>
+
+<!-- Chart Circle -->
+<script src="@{/js1/plugin/chart-circle/circles.min.js}"></script>
+
+<!-- Datatables -->
+<script src="@{/js1/plugin/datatables/datatables.min.js}"></script>
+
+<!-- Bootstrap Notify -->
+<script src="@{/js1/plugin/bootstrap-notify/bootstrap-notify.min.js}"></script>
+
+<!-- jQuery Vector Maps -->
+<script src="@{/js1/plugin/jsvectormap/jsvectormap.min.js}"></script>
+<script src="@{/js1/plugin/jsvectormap/world.js}"></script>
+
+<!-- Sweet Alert -->
+<script src="@{/js1/plugin/sweetalert/sweetalert.min.js}"></script>
+
+<!-- Kaiadmin JS -->
+<script src="@{/js1/kaiadmin.min.js}"></script>
+
+<!-- Kaiadmin DEMO methods, don't include it in your project! -->
+<script src="@{/js1/setting-demo.js}"></script>
+<script src="@{/js1/demo.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#177dff",
+        fillColor: "rgba(23, 125, 255, 0.14)",
+      });
+
+      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#f3545d",
+        fillColor: "rgba(243, 84, 93, .14)",
+      });
+
+      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+        type: "line",
+        height: "70",
+        width: "100%",
+        lineWidth: "2",
+        lineColor: "#ffa534",
+        fillColor: "rgba(255, 165, 52, .14)",
+      });
+    </script>
+<script>
+document.querySelector('form').addEventListener('submit', function (e) {
+    const fileInput = document.querySelector('input[name="image"]');
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = function () {
+        const width = img.width;
+        const height = img.height;
+        if (width > 400 || height > 500) {
+            e.preventDefault(); // prevent form submission
+            alert('Image dimensions must be 400x500 or less!');
+        }
+    };
+    e.preventDefault(); // wait for image load
+});
+</script>
+
+
+</body>
+</html>
